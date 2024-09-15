@@ -13,13 +13,7 @@ export const config: Options.Testrunner = {
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
     runner: "local",
-    autoCompileOpts: {
-        autoCompile: true,
-        tsNodeOpts: {
-            project: "./tsconfig.json",
-            transpileOnly: true,
-        },
-    },
+    tsConfigPath: "./tsconfig.json",
 
     //
     // ==================
@@ -33,9 +27,8 @@ export const config: Options.Testrunner = {
     // worker process. In order to have a group of spec files run in the same worker
     // process simply enclose them in an array within the specs array.
     //
-    // If you are calling `wdio` from an NPM script (see https://docs.npmjs.com/cli/run-script),
-    // then the current working directory is where your `package.json` resides, so `wdio`
-    // will be called from there.
+    // The path of the spec files will be resolved relative from the directory of
+    // of the config file unless it's absolute.
     //
     currentDt: new Date(),
     specs: [`${process.cwd()}/test/features/**/*.feature`],
@@ -120,7 +113,7 @@ export const config: Options.Testrunner = {
     // Set specific log levels per logger
     // loggers:
     // - webdriver, webdriverio
-    // - @wdio/browserstack-service, @wdio/devtools-service, @wdio/sauce-service
+    // - @wdio/browserstack-service, @wdio/lighthouse-service, @wdio/sauce-service
     // - @wdio/mocha-framework, @wdio/jasmine-framework
     // - @wdio/local-runner
     // - @wdio/sumologic-reporter
@@ -139,7 +132,7 @@ export const config: Options.Testrunner = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: "http://localhost",
+    // baseUrl: 'http://localhost:8080',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -164,6 +157,7 @@ export const config: Options.Testrunner = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: "cucumber",
+
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -199,6 +193,8 @@ export const config: Options.Testrunner = {
         dryRun: false,
         // <boolean> abort the run on first failure
         failFast: false,
+        // <string[]> Only execute the scenarios with name matching the expression (repeatable).
+        name: [],
         // <boolean> hide step definition snippets for pending steps
         snippets: true,
         // <boolean> hide source uris
@@ -228,11 +224,11 @@ export const config: Options.Testrunner = {
      */
     onPrepare: function (config, capabilities) {
         if (process.env.RUNNER === "LOCAL" && fs.existsSync("./allure-results")) {
-            fs.rmdirSync("./allure-results", { recursive: true })
+            fs.rmSync("./allure-results", { recursive: true })
         }
     },
     /**
-     * Gets executed before a worker process is spawned and can be used to initialise specific service
+     * Gets executed before a worker process is spawned and can be used to initialize specific service
      * for that worker as well as modify runtime environments in an async fashion.
      * @param  {string} cid      capability id (e.g 0-0)
      * @param  {object} caps     object containing capabilities for session that will be spawn in the worker
@@ -398,5 +394,17 @@ export const config: Options.Testrunner = {
      * @param {string} newSessionId session ID of the new session
      */
     // onReload: function(oldSessionId, newSessionId) {
+    // }
+    /**
+     * Hook that gets executed before a WebdriverIO assertion happens.
+     * @param {object} params information about the assertion to be executed
+     */
+    // beforeAssertion: function(params) {
+    // }
+    /**
+     * Hook that gets executed after a WebdriverIO assertion happened.
+     * @param {object} params information about the assertion that was executed, including its results
+     */
+    // afterAssertion: function(params) {
     // }
 };
