@@ -43,7 +43,7 @@ Then(/^Validate all products have valid price$/, async function () {
         let priceStr = await eleArr[i].getText();
         priceStrArr.push(priceStr);
     }
-
+    console.log(`>>> price list: ${priceStrArr}`)
     /**2. Convert string to number */
     let priceNumArr = priceStrArr.map((ele) => +ele.replace("$", ""));
     /**3. Assert if any value is <=0 */
