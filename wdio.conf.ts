@@ -176,7 +176,11 @@ export const config: Options.Testrunner = {
         {
             outputDir: 'allure-results',
             disableWebdriverStepsReporting: true,
-            useCucumberStepReporter: true
+            useCucumberStepReporter: true,
+            reportedEnvironmentVars: {
+                Environment: "TEST",
+                App: 'Customer UI'
+            }
         }
     ]
 ],
@@ -348,8 +352,8 @@ export const config: Options.Testrunner = {
      */
     afterFeature: function (uri, feature) {
         // Add more env details
-        allure.addEnvironment("Environment: ", browser.options.environment)
-        allure.addEnvironment("Middleware: ", "SIT-EAI")
+        // allure.addEnvironment("Environment: ", browser.options.environment)
+        // allure.addEnvironment("Middleware: ", "SIT-EAI")
          },
     
     /**
