@@ -6,12 +6,14 @@
     "type": "module",
     "private": true,
     "scripts": {
-        "test:debug": "export DEBUG=Y && export HEADLESS=N && wdio run config/wdio.test.conf.ts --cucumberOpts.tagExpression='@demo' > output.txt",
-        "test:demo": "export DEBUG=N && export HEADLESS=N && wdio run config/wdio.test.conf.ts --cucumberOpts.tagExpression='@demo'",
-        "test:smoke": "export DEBUG=N&& export HEADLESS=Y&& wdio run config/wdio.test.conf.ts --cucumberOpts.tagExpression='@smoke'",
-        "uat:demo": "export DEBUG=N && export HEADLESS=N && wdio run config/wdio.uat.conf.ts --cucumberOpts.tagExpression='@demo'",
-        "uat:smoke": "export DEBUG=N && export HEADLESS=Y && wdio run config/wdio.uat.conf.ts --cucumberOpts.tagExpression='@smoke'",
-        "wdio": "wdio run ./wdio.conf.ts"
+        "test:debug": "DEBUG=Y && HEADLESS=N && npx wdio run config/wdio.test.conf.ts --cucumberOpts.tags='@demo' > output.txt",
+        "test:demo": "DEBUG=N && HEADLESS=N && npx wdio run config/wdio.test.conf.ts --cucumberOpts.tags='@demo'",
+        "test:smoke": "DEBUG=N && HEADLESS=Y && npx wdio run config/wdio.test.conf.ts --cucumberOpts.tags='@smoke'",
+        "uat:demo": "DEBUG=N && HEADLESS=N && npx wdio run config/wdio.uat.conf.ts --cucumberOpts.tags='@demo'",
+        "uat:smoke": "DEBUG=N && HEADLESS=Y && npx wdio run config/wdio.uat.conf.ts --cucumberOpts.tags='@smoke'",
+        "wdio": "wdio run ./wdio.conf.ts",
+        "wdio-test": "wdio run config/wdio.test.conf.ts && npm run report",
+        "report": "allure generate allure-results --clean && allure open"
     },
     "keywords": [
         "wdio",

@@ -326,6 +326,6 @@ When(/^Perfom web interactions$/, async function () {
 
 
 
-    await browser.debug()
+    // await browser.debug()
 
 })

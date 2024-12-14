@@ -2,10 +2,12 @@
 import dotenv from "dotenv";
 import allure from "@wdio/allure-reporter";
 import fs from "fs";
+
 dotenv.config();
 let headless = process.env.HEADLESS;
 let debug = process.env.DEBUG;
-import type { Options } from "@wdio/types";
+import type {Options} from "@wdio/types";
+
 export const config: Options.Testrunner = {
     //
     // ====================
@@ -82,15 +84,15 @@ export const config: Options.Testrunner = {
                 args:
                     headless.toUpperCase() === "Y"
                         ? [
-                              "--disable-web-security",
-                              "--headless",
-                              "--disable-dev-shm-usage",
-                              "--no-sandbox",
-                              "--window-size=1920,1080",
-                          ]
+                            "--disable-web-security",
+                            "--headless",
+                            "--disable-dev-shm-usage",
+                            "--no-sandbox",
+                            "--window-size=1920,1080",
+                        ]
                         : [],
             },
-            timeouts: { implicit: 10000, pageLoad: 20000, script: 30000 },
+            timeouts: {implicit: 10000, pageLoad: 20000, script: 30000},
         },
         // {
         //     maxInstances: 3,
@@ -108,7 +110,7 @@ export const config: Options.Testrunner = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: debug.toUpperCase() === "Y" ?  'info' : 'error',
+    logLevel: debug.toUpperCase() === "Y" ? 'info' : 'error',
     //
     // Set specific log levels per logger
     // loggers:
@@ -172,18 +174,18 @@ export const config: Options.Testrunner = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec',
-    ['allure',
-        {
-            outputDir: 'allure-results',
-            disableWebdriverStepsReporting: true,
-            useCucumberStepReporter: true,
-            reportedEnvironmentVars: {
-                Environment: "TEST",
-                App: 'Customer UI'
+        ['allure',
+            {
+                outputDir: 'allure-results',
+                disableWebdriverStepsReporting: true,
+                useCucumberStepReporter: true,
+                reportedEnvironmentVars: {
+                    Environment: "TEST",
+                    App: 'Customer UI'
+                }
             }
-        }
-    ]
-],
+        ]
+    ],
     //
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
@@ -228,7 +230,7 @@ export const config: Options.Testrunner = {
      */
     onPrepare: function (config, capabilities) {
         if (process.env.RUNNER === "LOCAL" && fs.existsSync("./allure-results")) {
-            fs.rmSync("./allure-results", { recursive: true })
+            fs.rmSync("./allure-results", {recursive: true})
         }
     },
     /**
@@ -270,7 +272,7 @@ export const config: Options.Testrunner = {
      */
     before: function (capabilities, specs) {
         // browser.options["environment"] = config.environment
-        // browser.options["sauseDemoURL"] = config.sauseDemoURL
+        browser.options["sauseDemoURL"] = config.sauseDemoURL
         // browser.options["reqresBaseURL"] = config.reqresBaseURL
         // browser.options["nopeCommerceBaseURL"] = config.nopeCommerceBaseURL
     },
@@ -299,10 +301,10 @@ export const config: Options.Testrunner = {
     beforeScenario: function (world, context) {
         let arr = world.pickle.name.split(/:/)
         // @ts-ignore
-        if(arr.length > 0) browser.options.testid = arr[0]
+        if (arr.length > 0) browser.options.testid = arr[0]
         // @ts-ignore
-        if(!browser.options.testid) throw Error(`Error getting testid for current scenario: ${world.pickle.name}`)
-        
+        if (!browser.options.testid) throw Error(`Error getting testid for current scenario: ${world.pickle.name}`)
+
     },
     /**
      *
@@ -312,8 +314,8 @@ export const config: Options.Testrunner = {
      * @param {object}             context  Cucumber World object
      */
     beforeStep: function (step, scenario, context) {
-        if(browser.options.testid) context.testid = browser.options.testid
-        
+        if (browser.options.testid) context.testid = browser.options.testid
+
     },
     /**
      *
@@ -354,8 +356,8 @@ export const config: Options.Testrunner = {
         // Add more env details
         // allure.addEnvironment("Environment: ", browser.options.environment)
         // allure.addEnvironment("Middleware: ", "SIT-EAI")
-         },
-    
+    },
+
     /**
      * Runs after a WebdriverIO command gets executed
      * @param {string} commandName hook command name

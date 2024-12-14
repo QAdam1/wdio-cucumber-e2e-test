@@ -1,5 +1,6 @@
 # Project specific
 allure-results
+allure-report
 debug
 .DS_Store
 output.txt
